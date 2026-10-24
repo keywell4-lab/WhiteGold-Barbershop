@@ -96,10 +96,23 @@ async function loadBookings() {
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    if (authError || !user) {
-        showMessage("Admin login is required to view bookings.");
-        return;
-    }
+if (authError || !user) {
+    window.location.replace("admin-login.html");
+    return;
+}
+
+const { data: admin, error: adminError } = await supabase
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+if (adminError || !admin) {
+    await supabase.auth.signOut();
+    window.location.replace("admin-login.html");
+    return;
+}
+
 
     const { data, error } = await supabase
         .from("bookings")
