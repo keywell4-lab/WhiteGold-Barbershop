@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book an Appointment | White Gold Barbershop</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .booking-page {
+            min-height: 100vh;
+            background: #101010;
+            color: #f5f5f5;
+        }
+
+        .booking-wrap {
+            width: min(920px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 50px 0 70px;
+        }
+
+        .booking-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .booking-heading .tagline {
+            color: #d4af37;
+            letter-spacing: 3px;
+            font-size: .85rem;
+            font-weight: bold;
+        }
+
+        .booking-heading h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 1.2;
+            margin: 12px 0;
+        }
+
+        .booking-heading h1 span {
+            color: #d4af37;
+        }
+
+        .booking-heading > p:last-child {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .booking-card {
+            background: #191919;
+            border: 1px solid #383020;
+            border-radius: 14px;
+            padding: clamp(20px, 4vw, 36px);
+        }
+
+        .booking-section-title {
+            color: #d4af37;
+            font-size: 1.1rem;
+            margin: 10px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #393226;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .booking-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .booking-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .booking-field label {
+            font-weight: 600;
+        }
+
+        .booking-field input,
+        .booking-field select,
+        .booking-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            color: #fff;
+            background: #101010;
+            border: 1px solid #4a4437;
+            border-radius: 7px;
+            font: inherit;
+        }
+
+        .booking-field input:focus,
+        .booking-field select:focus,
+        .booking-field textarea:focus {
+            outline: 2px solid #d4af37;
+            outline-offset: 1px;
+        }
+
+        .booking-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0;
+            padding: 16px;
+            background: #242116;
+            border: 1px solid #594a1e;
+            border-radius: 9px;
+        }
+
+        .booking-price strong {
+            color: #e3c45c;
+            font-size: 1.3rem;
+        }
+
+        .booking-note {
+            color: #ccc;
+            font-size: .9rem;
+            line-height: 1.7;
+        }
+
+        .booking-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .booking-submit,
+        .booking-whatsapp {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 13px 20px;
+            min-height: 48px;
+            border-radius: 7px;
+            border: 1px solid #d4af37;
+            font: inherit;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .booking-submit {
+            color: #111;
+            background: #d4af37;
+        }
+
+        .booking-whatsapp {
+            color: #07140b;
+            background: #25d366;
+            border-color: #25d366;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .booking-whatsapp:hover,
+        .booking-whatsapp:focus {
+            color: #fff;
+            background: #128c7e;
+            border-color: #128c7e;
+            transform: translateY(-2px);
+        }
+
+        .booking-message {
+            display: none;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 7px;
+            line-height: 1.6;
+        }
+
+        .booking-message.visible {
+            display: block;
+        }
+
+        .booking-message.error {
+            color: #ffd9d9;
+            background: #3b1d1d;
+        }
+
+        .booking-message.success {
+            color: #f8e9b0;
+            background: #292516;
+        }
+
+        .booking-back {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .booking-back a {
+            color: #e3c45c;
+        }
+
+        @media (max-width: 620px) {
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-field.full-width {
+                grid-column: auto;
+            }
+
+            .booking-actions {
+                flex-direction: column;
+            }
+
+            .booking-submit,
+            .booking-whatsapp {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+
+    <script src="../js/script.js" defer></script>
+    <script type="module" src="../js/booking.js" defer></script>
+</head>
+
+<body class="booking-page">
+
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            WHITE <span>GOLD</span>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <a href="booking.html" class="book-button">BOOK NOW</a>
+    </header>
+
+    <main class="booking-wrap">
+
+        <div class="booking-heading">
+            <p class="tagline">YOUR NEXT CUT STARTS HERE</p>
+
+            <h1>
+                BOOK YOUR <span>APPOINTMENT</span>
+            </h1>
+
+            <p>
+                Choose your service, preferred date and time.
+                The barbershop will confirm your appointment.
+            </p>
+        </div>
+
+        <form class="booking-card" id="bookingForm">
+
+            <h2 class="booking-section-title">Your Details</h2>
+
+            <div class="booking-grid">
+
+                <div class="booking-field">
+                    <label for="customerName">Full Name *</label>
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        autocomplete="name"
+                        maxlength="80"
+                        placeholder="Enter your full name"
+                        required>
+                </div>
+
+                <div class="booking-field">
+                    <label for="customerPhone">Phone Number *</label>
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        name="customerPhone"
+                        autocomplete="tel"
+                        maxlength="20"
+                        placeholder="e.g. 0712345678"
+                        required>
+                </div>
+
+                <div class="booking-field full-width">
+                    <label for="customerEmail">Email (Optional)</label>
+                    <input
+                        type="email"
+                        id="customerEmail"
+                        name="customerEmail"
+                        autocomplete="email"
+                        maxlength="120"
+                        placeholder="you@example.com">
+                </div>
+
+            </div>
+
+            <h2 class="booking-section-title" style="margin-top: 30px;">
+                Service and Appointment
+            </h2>
+
+            <div class="booking-grid">
+
+                <div class="booking-field full-width">
+                    <label for="service">Choose a Service *</label>
+
+                    <select id="service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="Classic Haircut" data-price="200">
+                            Classic Haircut — KSh 200
+                        </option>
+                        <option value="Skin Fade" data-price="300">
+                            Skin Fade — KSh 300
+                        </option>
+                        <option value="Taper Fade" data-price="250">
+                            Taper Fade — KSh 250
+                        </option>
+                        <option value="Beard Grooming" data-price="150">
+                            Beard Grooming — KSh 150
+                        </option>
+                        <option value="Kids' Haircut" data-price="150">
+                            Kids' Haircut — KSh 150
+                        </option>
+                        <option value="Haircut & Beard" data-price="350">
+                            Haircut &amp; Beard — KSh 350
+                        </option>
+                    </select>
+                </div>
+
+                <div class="booking-field">
+                    <label for="appointmentDate">Preferred Date *</label>
+                    <input
+                        type="date"
+                        id="appointmentDate"
+                        name="appointmentDate"
+                        required>
+                </div>
+
+                <div class="booking-field">
+                    <label for="appointmentTime">Preferred Time *</label>
+
+                    <select id="appointmentTime" name="appointmentTime" required>
+                        <option value="">Choose a time</option>
+                        <option value="08:00">8:00 AM</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="booking-field">
+                    <label for="paymentPreference">Payment Preference *</label>
+
+                    <select
+                        id="paymentPreference"
+                        name="paymentPreference"
+                        required>
+                        <option value="">Choose preference</option>
+                        <option value="M-PESA at the shop">
+                            M-PESA at the shop
+                        </option>
+                        <option value="Cash at the shop">
+                            Cash at the shop
+                        </option>
+                    </select>
+                </div>
+
+                <div class="booking-field">
+                    <label for="customerNotes">Additional Notes</label>
+                    <textarea
+                        id="customerNotes"
+                        name="customerNotes"
+                        maxlength="300"
+                        rows="3"
+                        placeholder="Any special requests?"></textarea>
+                </div>
+
+            </div>
+
+            <div class="booking-price" aria-live="polite">
+                <span>Selected Service Price</span>
+                <strong id="selectedPrice">KSh 0</strong>
+            </div>
+
+            <p class="booking-note">
+                Opening hours: Monday–Saturday, 8:00 AM–8:00 PM.
+                Sunday is closed. Your selected time is a request, not
+                a confirmed appointment. Do not send payment before
+                the barbershop confirms your booking.
+            </p>
+
+            <div class="booking-actions">
+                <button type="submit" class="booking-submit">
+                    Prepare Booking Request
+                </button>
+
+                <a
+                    class="booking-whatsapp"
+                    id="whatsappBooking"
+                    href="https://wa.me/254117579587?text=Hello%20White%20Gold%20Barbershop"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Ask on WhatsApp
+                </a>
+            </div>
+
+            <div
+                id="bookingMessage"
+                class="booking-message"
+                role="status"
+                aria-live="polite">
+            </div>
+
+        </form>
+
+        <div class="booking-back">
+            <a href="services.html">← Back to Services</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© 2026 White Gold Barbershop</p>
+        <p>Website by Keywell Web Solutions</p>
+    </footer>
+
+    <a
+        href="https://wa.me/254117579587?text=Hello%20White%20Gold%20Barbershop"
+        class="whatsapp-float"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with us on WhatsApp"
+        title="Chat with us on WhatsApp">
+
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.8 2 6.8L3 29l6.7-1.9c1.9 1 4 1.6 6.2 1.6 7.2 0 13-5.8 13-12.9S23.2 3 16 3zm0 23.4c-2 0-3.9-.5-5.5-1.5l-.4-.2-4 .9 1.1-3.9-.3-.4a10.7 10.7 0 0 1-1.7-5.6C5.2 9.8 10 5 16 5s10.8 4.8 10.8 10.7S22 26.4 16 26.4zm5.9-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.1.2 2.2 3.4 5.4 4.7.8.4 1.4.5 1.9.7.8.2 1.5.2 2.1.1.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.5z"/>
+        </svg>
+    </a>
+
+</body>
+</html>
