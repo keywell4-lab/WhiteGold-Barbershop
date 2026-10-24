@@ -97,7 +97,7 @@ async function loadBookings() {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
 if (authError || !user) {
-    window.location.replace("admin-login.html");
+    window.location.replace("./admin-login.html");
     return;
 }
 
@@ -109,7 +109,7 @@ const { data: admin, error: adminError } = await supabase
 
 if (adminError || !admin) {
     await supabase.auth.signOut();
-    window.location.replace("admin-login.html");
+    window.location.replace("./admin-login.html");
     return;
 }
 
